@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sporten – Your Cricket Store | Greater Noida West</title>
+<meta name="description" content="Sporten – Your Cricket Store. Bats, balls, pads, gloves, helmets and complete cricket gear at Rise Square Palm Street, ATS Roundabout, Sector 1, Greater Noida West.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#0d0d0d;
+  --ink:#151515;
+  --charcoal:#1f1f1f;
+  --yellow:#FDB913;
+  --orange:#F7A400;
+  --white:#ffffff;
+  --off:#f6f6f4;
+  --grey:#6b6b6b;
+  --pitch:#4c9a2a;
+  --pitch-dark:#2f6b17;
+  --clay:#c9a36b;
+  --ball:#b3121b;
+  --radius:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);overflow-x:hidden;cursor:none}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.container{width:min(1200px,100% - 32px);margin-inline:auto}
+@media (hover:none){body{cursor:auto}.cursor-ball{display:none!important}}
+
+/* ---------- LOADER ---------- */
+#loader{position:fixed;inset:0;background:var(--black);z-index:9999;display:grid;place-items:center;transition:opacity .6s,visibility .6s}
+#loader.hide{opacity:0;visibility:hidden}
+.loader-inner{text-align:center}
+.loader-ball{width:70px;height:70px;margin:0 auto 22px;animation:bounceBall .7s cubic-bezier(.5,0,.5,1) infinite alternate}
+.loader-ball svg{animation:spin .7s linear infinite}
+.loader-shadow{width:50px;height:8px;background:rgba(253,185,19,.35);border-radius:50%;margin:-14px auto 18px;animation:shadow .7s cubic-bezier(.5,0,.5,1) infinite alternate}
+.loader-text{font-size:2.4rem;font-weight:600;color:#fff;letter-spacing:.5px}
+.loader-text span{color:var(--yellow)}
+@keyframes bounceBall{from{transform:translateY(-40px)}to{transform:translateY(0)}}
+@keyframes shadow{from{transform:scale(.5);opacity:.4}to{transform:scale(1);opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- CURSOR ---------- */
+.cursor-ball{position:fixed;top:0;left:0;width:26px;height:26px;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s}
+.cursor-ball svg{width:100%;height:100%;animation:spin 1.2s linear infinite}
+.cursor-ball.big{width:44px;height:44px}
+.shot-pop{position:fixed;pointer-events:none;z-index:9997;font-family:'Oswald',sans-serif;font-weight:700;font-size:2rem;color:var(--yellow);text-shadow:3px 3px 0 var(--black);animation:pop 1s ease-out forwards}
+@keyframes pop{0%{transform:translate(-50%,-50%) scale(.3) rotate(-10deg);opacity:0}25%{transform:translate(-50%,-90%) scale(1.2) rotate(4deg);opacity:1}100%{transform:translate(-50%,-220%) scale(1);opacity:0}}
+
+/* ---------- SCROLL PROGRESS (pitch) ---------- */
+.progress{position:fixed;top:0;left:0;right:0;height:6px;background:var(--pitch-dark);z-index:1001}
+.progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--yellow),var(--orange))}
+.progress-ball{position:absolute;top:-5px;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:var(--ball);box-shadow:inset -3px -3px 0 rgba(0,0,0,.25);left:0}
+
+/* ---------- NAV ---------- */
+header{position:fixed;top:6px;left:0;right:0;z-index:1000;transition:background .3s,box-shadow .3s,padding .3s;padding:18px 0}
+header.scrolled{background:rgba(255,255,255,.95);backdrop-filter:blur(10px);box-shadow:0 6px 30px rgba(0,0,0,.08);padding:10px 0}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{font-size:2rem;font-weight:600;letter-spacing:.3px;color:#fff;transition:color .3s;line-height:1}
+.logo span{color:var(--yellow)}
+header.scrolled .logo{color:var(--black)}
+.logo small{display:block;font-family:'Oswald',sans-serif;font-size:.62rem;letter-spacing:3px;font-weight:500;margin-top:2px;opacity:.8}
+.nav ul{display:flex;list-style:none;gap:30px}
+.nav ul a{color:#fff;font-weight:500;font-size:.95rem;position:relative;transition:color .3s}
+header.scrolled .nav ul a{color:var(--black)}
+.nav ul a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:3px;border-radius:3px;background:var(--yellow);transition:width .3s}
+.nav ul a:hover::after{width:100%}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:50px;font-weight:600;font-size:.95rem;border:2px solid transparent;transition:transform .25s,box-shadow .25s,background .25s,color .25s;cursor:none;position:relative;overflow:hidden}
+.btn-yellow{background:var(--yellow);color:var(--black);box-shadow:0 10px 25px rgba(253,185,19,.35)}
+.btn-yellow:hover{transform:translateY(-3px);box-shadow:0 16px 35px rgba(253,185,19,.5)}
+.btn-outline{border-color:#fff;color:#fff}
+.btn-outline:hover{background:#fff;color:var(--black);transform:translateY(-3px)}
+.btn-dark{background:var(--black);color:#fff}
+.btn-dark:hover{background:var(--yellow);color:var(--black);transform:translateY(-3px)}
+.btn svg{width:18px;height:18px}
+.nav-call{padding:10px 20px}
+.burger{display:none;background:none;border:0;width:40px;height:40px;cursor:pointer;position:relative}
+.burger span{display:block;width:26px;height:3px;background:#fff;margin:5px auto;border-radius:3px;transition:.3s}
+header.scrolled .burger span{background:var(--black)}
+@media (max-width:900px){
+  .nav ul{position:fixed;inset:0 0 0 30%;background:var(--black);flex-direction:column;justify-content:center;padding:40px;gap:28px;transform:translateX(100%);transition:transform .4s}
+  .nav ul.open{transform:none}
+  .nav ul a,header.scrolled .nav ul a{color:#fff;font-size:1.3rem}
+  header.scrolled{backdrop-filter:none;background:#fff}
+  .burger{display:block;z-index:2}
+  .burger.open span{background:#fff}
+  .burger.open span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+  .burger.open span:nth-child(2){opacity:0}
+  .burger.open span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+  .nav-call{display:none}
+}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;min-height:100vh;background:var(--black);color:#fff;overflow:hidden;display:flex;align-items:center;padding:140px 0 120px}
+.hero::before{content:"";position:absolute;top:-120px;right:-80px;width:520px;height:520px;background:var(--yellow);transform:rotate(45deg);opacity:.95;clip-path:polygon(0 0,100% 0,100% 100%);animation:floatTri 8s ease-in-out infinite}
+.hero::after{content:"";position:absolute;bottom:-160px;left:-120px;width:340px;height:340px;background:var(--orange);transform:rotate(45deg);opacity:.15;animation:floatTri 10s ease-in-out infinite reverse}
+@keyframes floatTri{50%{transform:rotate(45deg) translate(20px,20px)}}
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'Oswald',sans-serif;letter-spacing:3px;font-size:.85rem;color:var(--yellow);text-transform:uppercase;margin-bottom:18px}
+.eyebrow::before{content:"";width:40px;height:2px;background:var(--yellow)}
+.hero h1{font-family:'Oswald',sans-serif;font-weight:700;font-size:clamp(3rem,8vw,6.6rem);line-height:.95;text-transform:uppercase;letter-spacing:1px}
+.hero h1 .line{display:block;overflow:hidden}
+.hero h1 .char{display:inline-block;transform:translateY(110%);animation:charUp .8s cubic-bezier(.2,.8,.2,1) forwards}
+.hero h1 .accent{color:var(--yellow)}
+.hero h1 .outline{-webkit-text-stroke:2px #fff;color:transparent}
+@keyframes charUp{to{transform:none}}
+.hero p.lead{margin:26px 0 36px;font-size:1.08rem;color:#cfcfcf;max-width:520px;line-height:1.7;opacity:0;animation:fadeUp .9s 1.4s forwards}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;opacity:0;animation:fadeUp .9s 1.6s forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+
+/* hero scene */
+.scene{position:relative;height:520px}
+.pitch-oval{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:110%;height:150px;border-radius:50%;background:radial-gradient(ellipse at center,var(--pitch) 0%,var(--pitch-dark) 70%);box-shadow:0 30px 60px rgba(0,0,0,.6),inset 0 -14px 0 #5a3a1a}
+.pitch-oval::before{content:"";position:absolute;left:50%;top:20%;transform:translateX(-50%);width:28%;height:60%;background:var(--clay);border-radius:8px;opacity:.85}
+.pitch-oval::after{content:"";position:absolute;inset:6px;border-radius:50%;background:repeating-linear-gradient(90deg,transparent 0 30px,rgba(255,255,255,.05) 30px 60px)}
+.stumps{position:absolute;bottom:92px;right:24%;width:70px;height:170px;z-index:3}
+.stump{position:absolute;bottom:0;width:10px;height:150px;background:linear-gradient(90deg,#f3e4c4,#d8bd8a);border-radius:5px 5px 2px 2px;box-shadow:2px 0 0 rgba(0,0,0,.2)}
+.stump:nth-child(1){left:0}.stump:nth-child(2){left:30px}.stump:nth-child(3){left:60px}
+.bail{position:absolute;top:14px;width:36px;height:7px;background:var(--yellow);border-radius:4px;transition:none}
+.bail.b1{left:-2px}.bail.b2{left:34px}
+.stumps.hit .bail.b1{animation:bailFly1 1.2s ease-out forwards}
+.stumps.hit .bail.b2{animation:bailFly2 1.2s ease-out forwards}
+.stumps.hit .stump:nth-child(2){animation:wobble .6s}
+@keyframes bailFly1{30%{transform:translate(-50px,-120px) rotate(-200deg)}100%{transform:translate(-90px,150px) rotate(-540deg);opacity:0}}
+@keyframes bailFly2{30%{transform:translate(60px,-140px) rotate(220deg)}100%{transform:translate(110px,150px) rotate(560deg);opacity:0}}
+@keyframes wobble{25%{transform:rotate(-8deg)}75%{transform:rotate(5deg)}}
+.hero-bat{position:absolute;left:24%;bottom:110px;width:110px;transform-origin:50% 92%;z-index:4;animation:batReady 3.6s ease-in-out infinite}
+@keyframes batReady{0%,60%,100%{transform:rotate(-35deg)}70%{transform:rotate(-70deg)}78%{transform:rotate(55deg)}88%{transform:rotate(-20deg)}}
+.flying-ball{position:absolute;width:34px;height:34px;z-index:5;left:0;top:0}
+.flying-ball svg{width:100%;height:100%;animation:spin .4s linear infinite}
+.big-ball{position:absolute;top:10px;right:6%;width:200px;height:200px;animation:floaty 6s ease-in-out infinite;filter:drop-shadow(0 30px 40px rgba(0,0,0,.6))}
+.big-ball svg{width:100%;height:100%;animation:spin 14s linear infinite}
+@keyframes floaty{50%{transform:translateY(-22px)}}
+.speed-badge{position:absolute;left:4%;top:40px;background:#fff;color:var(--black);border-radius:14px;padding:12px 18px;font-family:'Oswald',sans-serif;box-shadow:0 20px 40px rgba(0,0,0,.4);animation:floaty 5s ease-in-out infinite;z-index:6}
+.speed-badge b{display:block;font-size:1.8rem;color:var(--orange);line-height:1}
+.speed-badge small{letter-spacing:2px;font-size:.7rem;color:var(--grey)}
+.hero-scroll{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:.7rem;letter-spacing:3px;color:#aaa}
+.hero-scroll .mouse{width:24px;height:38px;border:2px solid #aaa;border-radius:14px;position:relative}
+.hero-scroll .mouse::after{content:"";position:absolute;left:50%;top:7px;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:var(--yellow);animation:scrollDot 1.6s infinite}
+@keyframes scrollDot{to{transform:translateY(16px);opacity:0}}
+.particles{position:absolute;inset:0;z-index:1;pointer-events:none}
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr}
+  .scene{height:380px}
+  .big-ball{width:130px;height:130px}
+  .hero::before{width:300px;height:300px}
+}
+
+/* ---------- TICKER ---------- */
+.ticker{background:var(--yellow);color:var(--black);padding:18px 0;overflow:hidden;transform:rotate(-2deg);margin:-30px -20px 0;position:relative;z-index:5;box-shadow:0 12px 30px rgba(0,0,0,.15)}
+.ticker-track{display:flex;width:max-content;animation:ticker 30s linear infinite}
+.ticker-track span{font-family:'Oswald',sans-serif;font-weight:700;font-size:1.6rem;text-transform:uppercase;letter-spacing:2px;padding:0 26px;display:flex;align-items:center;gap:26px;white-space:nowrap}
+.ticker-track span::after{content:"";width:18px;height:18px;border-radius:50%;background:var(--ball);box-shadow:inset -3px -3px 0 rgba(0,0,0,.3)}
+@keyframes ticker{to{transform:translateX(-50%)}}
+
+/* ---------- SECTIONS ---------- */
+section{padding:110px 0;position:relative}
+.sec-head{text-align:center;max-width:680px;margin:0 auto 60px}
+.sec-head .eyebrow{justify-content:center;color:var(--orange)}
+.sec-head .eyebrow::before{background:var(--orange)}
+.sec-head h2{font-family:'Oswald',sans-serif;font-size:clamp(2.2rem,5vw,3.6rem);text-transform:uppercase;line-height:1.05}
+.sec-head h2 em{font-style:normal;color:var(--orange)}
+.sec-head p{color:var(--grey);margin-top:16px;line-height:1.7}
+
+.reveal{opacity:0;transform:translateY(50px);transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1)}
+.reveal.left{transform:translateX(-60px)}
+.reveal.right{transform:translateX(60px)}
+.reveal.zoom{transform:scale(.85)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- ABOUT ---------- */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}
+.about-visual{position:relative;aspect-ratio:1;max-width:480px;margin:auto;width:100%}
+.ring{position:absolute;inset:0;border-radius:50%;border:2px dashed rgba(247,164,0,.5);animation:spin 40s linear infinite}
+.ring.r2{inset:40px;border-style:solid;border-color:rgba(13,13,13,.08);animation-duration:25s;animation-direction:reverse}
+.about-core{position:absolute;inset:80px;border-radius:50%;background:var(--black);display:grid;place-items:center;text-align:center;color:#fff;overflow:hidden}
+.about-core::before{content:"";position:absolute;inset:0;background:conic-gradient(from 0deg,transparent 0 70%,rgba(253,185,19,.4) 85%,transparent);animation:spin 4s linear infinite}
+.about-core div{position:relative}
+.about-core b{font-family:'Oswald',sans-serif;font-size:4rem;color:var(--yellow);line-height:1;display:block}
+.about-core small{letter-spacing:3px;font-size:.75rem;text-transform:uppercase}
+.orbit{position:absolute;inset:0;animation:spin 12s linear infinite}
+.orbit .o-ball{position:absolute;top:-18px;left:50%;margin-left:-18px;width:36px;height:36px}
+.orbit .o-ball svg{width:100%;height:100%}
+.about-chip{position:absolute;background:#fff;border-radius:14px;padding:12px 16px;box-shadow:0 14px 40px rgba(0,0,0,.12);font-weight:600;font-size:.85rem;display:flex;align-items:center;gap:10px;animation:floaty 5s ease-in-out infinite}
+.about-chip i{width:34px;height:34px;border-radius:10px;background:var(--yellow);display:grid;place-items:center;font-style:normal;font-size:1.1rem}
+.about-chip.c1{top:8%;left:-4%}
+.about-chip.c2{bottom:10%;right:-6%;animation-delay:-2s}
+.about-text h2{font-family:'Oswald',sans-serif;font-size:clamp(2.2rem,4.5vw,3.4rem);text-transform:uppercase;line-height:1.05;margin-bottom:22px}
+.about-text h2 em{font-style:normal;color:var(--orange)}
+.about-text p{color:var(--grey);line-height:1.8;margin-bottom:16px}
+.checks{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:28px 0 34px}
+.checks li{display:flex;align-items:center;gap:10px;font-weight:500}
+.checks li::before{content:"✓";width:26px;height:26px;flex:none;border-radius:50%;background:var(--black);color:var(--yellow);display:grid;place-items:center;font-size:.8rem;font-weight:700}
+@media (max-width:900px){.about-grid{grid-template-columns:1fr;gap:50px}.checks{grid-template-columns:1fr}.about-chip.c1{left:0}.about-chip.c2{right:0}}
+
+/* ---------- CATEGORIES ---------- */
+.cats{background:var(--off);overflow:hidden}
+.cats::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(0,0,0,.06) 1.5px,transparent 1.5px);background-size:24px 24px}
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;position:relative}
+.cat{background:#fff;border-radius:var(--radius);padding:34px 26px 30px;position:relative;overflow:hidden;transition:transform .35s,box-shadow .35s,background .35s;transform-style:preserve-3d;will-change:transform}
+.cat::before{content:"";position:absolute;right:-50px;top:-50px;width:140px;height:140px;border-radius:50%;background:var(--yellow);opacity:.15;transition:transform .5s,opacity .5s}
+.cat:hover{box-shadow:0 30px 60px rgba(0,0,0,.12);background:var(--black);color:#fff}
+.cat:hover::before{transform:scale(5);opacity:.08}
+.cat-icon{width:74px;height:74px;border-radius:20px;background:var(--black);display:grid;place-items:center;margin-bottom:22px;transition:transform .5s,background .35s;position:relative}
+.cat-icon svg{width:42px;height:42px;stroke:var(--yellow);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.cat:hover .cat-icon{background:var(--yellow);transform:rotate(-12deg) scale(1.08)}
+.cat:hover .cat-icon svg{stroke:var(--black)}
+.cat h3{font-family:'Oswald',sans-serif;font-size:1.45rem;text-transform:uppercase;margin-bottom:8px;position:relative}
+.cat p{font-size:.9rem;color:var(--grey);line-height:1.6;position:relative;transition:color .35s}
+.cat:hover p{color:#bbb}
+.cat .num{position:absolute;right:22px;bottom:12px;font-family:'Oswald',sans-serif;font-size:3.5rem;font-weight:700;color:rgba(0,0,0,.05);transition:color .35s}
+.cat:hover .num{color:rgba(253,185,19,.2)}
+@media (max-width:1000px){.cat-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.cat-grid{grid-template-columns:1fr}}
+
+/* ---------- SCOREBOARD ---------- */
+.scoreboard{background:var(--black);color:#fff;overflow:hidden}
+.scoreboard::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,transparent 60%,rgba(253,185,19,.12) 60%)}
+.board{position:relative;border:3px solid #2a2a2a;border-radius:24px;padding:40px;background:linear-gradient(#111,#0a0a0a);box-shadow:inset 0 0 60px rgba(0,0,0,.8),0 30px 80px rgba(0,0,0,.6)}
+.board-top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;border-bottom:2px dashed #2a2a2a;padding-bottom:22px;margin-bottom:30px}
+.board-top h2{font-family:'Oswald',sans-serif;text-transform:uppercase;font-size:clamp(1.8rem,4vw,2.8rem)}
+.board-top h2 span{color:var(--yellow)}
+.live{display:inline-flex;align-items:center;gap:8px;background:#c8102e;padding:6px 14px;border-radius:6px;font-family:'Oswald',sans-serif;letter-spacing:2px;font-size:.85rem}
+.live::before{content:"";width:9px;height:9px;border-radius:50%;background:#fff;animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.2}}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.stat{text-align:center;padding:24px 10px;border-radius:16px;background:#151515;border:1px solid #232323}
+.stat .digits{font-family:'Oswald',sans-serif;font-size:clamp(2.6rem,5vw,3.8rem);font-weight:700;color:var(--yellow);text-shadow:0 0 22px rgba(253,185,19,.45);line-height:1}
+.stat small{display:block;margin-top:10px;letter-spacing:2px;text-transform:uppercase;font-size:.75rem;color:#9a9a9a}
+@media (max-width:800px){.stats{grid-template-columns:repeat(2,1fr)}.board{padding:26px 18px}}
+
+/* ---------- WHY / FEATURES ---------- */
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.why{padding:36px 30px;border-radius:var(--radius);border:2px solid #eee;transition:border-color .3s,transform .3s;position:relative;overflow:hidden}
+.why:hover{border-color:var(--yellow);transform:translateY(-8px)}
+.why .badge{font-family:'Oswald',sans-serif;font-size:3rem;color:var(--yellow);font-weight:700;line-height:1;margin-bottom:12px;-webkit-text-stroke:1.5px var(--black)}
+.why h3{font-family:'Oswald',sans-serif;text-transform:uppercase;font-size:1.4rem;margin-bottom:10px}
+.why p{color:var(--grey);line-height:1.7;font-size:.95rem}
+.why .stripe{position:absolute;left:0;bottom:0;height:5px;width:0;background:linear-gradient(90deg,var(--yellow),var(--orange));transition:width .5s}
+.why:hover .stripe{width:100%}
+@media (max-width:900px){.why-grid{grid-template-columns:1fr}}
+
+/* ---------- INSTAGRAM ---------- */
+.insta{background:var(--off)}
+.insta-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:50px;align-items:start}
+.insta-card{background:var(--black);color:#fff;border-radius:24px;padding:40px;position:sticky;top:110px;overflow:hidden}
+.insta-card::before{content:"";position:absolute;top:-80px;right:-80px;width:220px;height:220px;background:var(--yellow);transform:rotate(45deg)}
+.insta-avatar{width:96px;height:96px;border-radius:50%;padding:4px;background:conic-gradient(var(--yellow),var(--orange),#e1306c,var(--yellow));animation:spin 6s linear infinite;position:relative;margin-bottom:22px}
+.insta-avatar div{width:100%;height:100%;border-radius:50%;background:var(--black);display:flex;align-items:center;justify-content:center;white-space:nowrap;font-weight:700;font-size:1.4rem;animation:spin 6s linear infinite reverse}
+.insta-avatar div span{color:var(--yellow)}
+.insta-card h3{font-size:1.6rem;margin-bottom:6px;position:relative}
+.insta-card .handle{color:var(--yellow);font-weight:600;margin-bottom:18px;display:block}
+.insta-card p{color:#bdbdbd;line-height:1.7;margin-bottom:28px}
+.insta-frame{background:#fff;border-radius:24px;padding:14px;box-shadow:0 30px 60px rgba(0,0,0,.08)}
+.insta-frame iframe{width:100%;height:820px;border:0;border-radius:14px;display:block;background:#fafafa}
+@media (max-width:900px){.insta-wrap{grid-template-columns:1fr}.insta-card{position:relative;top:0}.insta-frame iframe{height:640px}}
+
+/* ---------- CONTACT ---------- */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:stretch}
+.c-list{display:flex;flex-direction:column;gap:18px}
+.c-item{display:flex;align-items:center;gap:20px;padding:22px 24px;border-radius:var(--radius);background:#fff;border:2px solid #eee;transition:transform .3s,border-color .3s,box-shadow .3s}
+.c-item:hover{transform:translateX(10px);border-color:var(--yellow);box-shadow:0 20px 40px rgba(0,0,0,.07)}
+.c-ico{width:56px;height:56px;flex:none;border-radius:50%;background:var(--black);display:grid;place-items:center;transition:transform .4s}
+.c-item:hover .c-ico{transform:rotate(360deg);background:var(--yellow)}
+.c-ico svg{width:24px;height:24px;fill:#fff;transition:fill .3s}
+.c-item:hover .c-ico svg{fill:var(--black)}
+.c-item small{display:block;color:var(--grey);font-size:.78rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px}
+.c-item b{font-weight:600;font-size:1.02rem;line-height:1.45;word-break:break-word}
+.map{border-radius:24px;overflow:hidden;min-height:440px;box-shadow:0 30px 60px rgba(0,0,0,.1);border:6px solid var(--black)}
+.map iframe{width:100%;height:100%;min-height:440px;border:0;display:block;filter:grayscale(.2) contrast(1.05)}
+@media (max-width:900px){.contact-grid{grid-template-columns:1fr}}
+
+/* ---------- CTA BAND ---------- */
+.cta-band{background:var(--yellow);padding:80px 0;overflow:hidden}
+.cta-band .container{display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap;position:relative;z-index:2}
+.cta-band h2{font-family:'Oswald',sans-serif;text-transform:uppercase;font-size:clamp(2rem,5vw,3.4rem);line-height:1.05;color:var(--black)}
+.cta-band .bg-word{position:absolute;font-family:'Oswald',sans-serif;font-weight:700;font-size:16rem;color:rgba(0,0,0,.06);top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none;letter-spacing:10px}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--black);color:#aaa;padding:70px 0 30px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;margin-bottom:40px}
+footer .logo{color:#fff;font-size:2.4rem}
+footer p{line-height:1.8;margin-top:14px;font-size:.92rem}
+footer h4{color:#fff;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:2px;margin-bottom:18px}
+footer ul{list-style:none;display:grid;gap:10px;font-size:.92rem}
+footer ul a:hover{color:var(--yellow)}
+.socials{display:flex;gap:12px;margin-top:20px}
+.socials a{width:42px;height:42px;border-radius:50%;border:1.5px solid #333;display:grid;place-items:center;transition:.3s}
+.socials a:hover{background:var(--yellow);border-color:var(--yellow);transform:translateY(-4px)}
+.socials svg{width:18px;height:18px;fill:#fff}
+.socials a:hover svg{fill:var(--black)}
+.copy{border-top:1px solid #222;padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:.85rem}
+.copy span{color:var(--yellow)}
+@media (max-width:800px){.foot-grid{grid-template-columns:1fr}}
+
+/* ---------- FLOATING WHATSAPP ---------- */
+.wa{position:fixed;right:22px;bottom:22px;width:60px;height:60px;border-radius:50%;background:#25D366;display:grid;place-items:center;z-index:900;box-shadow:0 12px 30px rgba(37,211,102,.45);cursor:none}
+.wa::before{content:"";position:absolute;inset:0;border-radius:50%;background:#25D366;animation:ripple 1.8s infinite;z-index:-1}
+@keyframes ripple{to{transform:scale(1.8);opacity:0}}
+.wa svg{width:30px;height:30px;fill:#fff}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<!-- reusable cricket ball symbol -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <radialGradient id="ballGrad" cx="35%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="#ef3b3b"/>
+      <stop offset="55%" stop-color="#b3121b"/>
+      <stop offset="100%" stop-color="#5c060b"/>
+    </radialGradient>
+    <symbol id="ball" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="48" fill="url(#ballGrad)"/>
+      <path d="M30 8 C 48 30, 48 70, 30 92" fill="none" stroke="#f6e7c8" stroke-width="2.2"/>
+      <path d="M38 6 C 56 30, 56 70, 38 94" fill="none" stroke="#f6e7c8" stroke-width="2.2"/>
+      <g stroke="#f6e7c8" stroke-width="1.6">
+        <line x1="34" y1="18" x2="42" y2="16"/><line x1="38" y1="28" x2="46" y2="26"/><line x1="40" y1="38" x2="48" y2="37"/>
+        <line x1="41" y1="50" x2="49" y2="50"/><line x1="40" y1="62" x2="48" y2="63"/><line x1="38" y1="72" x2="46" y2="74"/><line x1="34" y1="82" x2="42" y2="84"/>
+      </g>
+      <ellipse cx="34" cy="28" rx="12" ry="7" fill="#fff" opacity=".18" transform="rotate(-30 34 28)"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div id="loader">
+  <div class="loader-inner">
+    <div class="loader-ball"><svg viewBox="0 0 100 100"><use href="#ball"/></svg></div>
+    <div class="loader-shadow"></div>
+    <div class="loader-text">Spor<span>ten</span></div>
+  </div>
+</div>
+
+<div class="cursor-ball" id="cursor"><svg viewBox="0 0 100 100"><use href="#ball"/></svg></div>
+
+<div class="progress"><div class="progress-bar" id="pbar"></div><div class="progress-ball" id="pball"></div></div>
+
+<header id="header">
+  <div class="container nav">
+    <a href="#home" class="logo">Spor<span>ten</span><small>YOUR CRICKET STORE</small></a>
+    <ul id="menu">
+      <li><a href="#about">About</a></li>
+      <li><a href="#gear">Gear</a></li>
+      <li><a href="#why">Why Us</a></li>
+      <li><a href="#instagram">Instagram</a></li>
+      <li><a href="#visit">Visit Us</a></li>
+    </ul>
+    <a href="tel:+917011691979" class="btn btn-yellow nav-call">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>
+      Call Now
+    </a>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="home">
+  <canvas class="particles" id="particles"></canvas>
+  <div class="container hero-grid">
+    <div>
+      <div class="eyebrow">Greater Noida West</div>
+      <h1>
+        <span class="line" data-split>Gear Up.</span>
+        <span class="line accent" data-split>Step In.</span>
+        <span class="line outline" data-split>Smash It.</span>
+      </h1>
+      <p class="lead">Sporten is your one-stop cricket store — handpicked bats, balls, protective gear and kits for every player, from gully cricket heroes to club champions.</p>
+      <div class="hero-ctas">
+        <a href="#gear" class="btn btn-yellow">Explore Gear
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="#visit" class="btn btn-outline">Visit The Store</a>
+      </div>
+    </div>
+
+    <div class="scene" id="scene">
+      <div class="speed-badge"><small>DELIVERY</small><b><span id="speed">142</span> km/h</b></div>
+      <div class="big-ball"><svg viewBox="0 0 100 100"><use href="#ball"/></svg></div>
+
+      <!-- Bat -->
+      <svg class="hero-bat" viewBox="0 0 60 260">
+        <defs><linearGradient id="willow" x1="0" x2="1"><stop offset="0" stop-color="#f1d9a6"/><stop offset=".5" stop-color="#e7c587"/><stop offset="1" stop-color="#c99f5c"/></linearGradient></defs>
+        <rect x="24" y="0" width="12" height="80" rx="6" fill="#111"/>
+        <g stroke="#FDB913" stroke-width="2.4"><line x1="24" y1="10" x2="36" y2="14"/><line x1="24" y1="22" x2="36" y2="26"/><line x1="24" y1="34" x2="36" y2="38"/><line x1="24" y1="46" x2="36" y2="50"/><line x1="24" y1="58" x2="36" y2="62"/></g>
+        <path d="M26 80 h8 l2 14 h-12z" fill="#c99f5c"/>
+        <path d="M12 94 h36 q4 0 4 6 v150 q0 10 -10 10 h-24 q-10 0 -10 -10 v-150 q0 -6 4 -6z" fill="url(#willow)"/>
+        <rect x="14" y="140" width="32" height="40" rx="4" fill="#0d0d0d"/>
+        <text x="30" y="166" font-family="Poppins" font-size="10" font-weight="700" fill="#FDB913" text-anchor="middle" transform="rotate(-90 30 160)">SPORTEN</text>
+      </svg>
+
+      <div class="stumps" id="stumps">
+        <div class="stump"></div><div class="stump"></div><div class="stump"></div>
+        <div class="bail b1"></div><div class="bail b2"></div>
+      </div>
+      <div class="flying-ball" id="flyball" style="opacity:0"><svg viewBox="0 0 100 100"><use href="#ball"/></svg></div>
+      <div class="pitch-oval"></div>
+    </div>
+  </div>
+  <a href="#about" class="hero-scroll"><div class="mouse"></div>SCROLL</a>
+</section>
+
+<div class="ticker">
+  <div class="ticker-track" id="ticker">
+    <span>English Willow Bats</span><span>Kashmir Willow Bats</span><span>Leather Balls</span><span>Tennis Balls</span><span>Batting Pads</span><span>Gloves</span><span>Helmets</span><span>Kit Bags</span><span>Cricket Shoes</span><span>Team Jerseys</span>
+  </div>
+</div>
+
+<!-- ============ ABOUT ============ -->
+<section id="about">
+  <div class="container about-grid">
+    <div class="about-visual reveal left">
+      <div class="ring"></div>
+      <div class="ring r2"></div>
+      <div class="orbit"><div class="o-ball"><svg viewBox="0 0 100 100"><use href="#ball"/></svg></div></div>
+      <div class="about-core"><div><b>100%</b><small>Cricket. Nothing Else.</small></div></div>
+      <div class="about-chip c1"><i>🏏</i>Expert Bat Advice</div>
+      <div class="about-chip c2"><i>🏆</i>Match-Ready Gear</div>
+    </div>
+    <div class="about-text reveal right">
+      <div class="eyebrow" style="color:var(--orange)">About Sporten</div>
+      <h2>Built for the <em>love</em> of the game</h2>
+      <p>At Sporten, cricket isn't just a sport we sell — it's the game we live for. Our store at Rise Square Palm Street brings together quality cricket equipment for beginners, academy players and seasoned cricketers.</p>
+      <p>Walk in, pick up a bat, feel the balance, knock it in — and let our team help you find the gear that suits your game.</p>
+      <ul class="checks">
+        <li>Bats for every budget</li>
+        <li>Junior &amp; senior sizes</li>
+        <li>Complete protective kits</li>
+        <li>Team &amp; academy orders</li>
+      </ul>
+      <a href="#visit" class="btn btn-dark">Come Say Hello
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CATEGORIES ============ -->
+<section class="cats" id="gear">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="eyebrow">What We Stock</div>
+      <h2>Everything you need <em>on the field</em></h2>
+      <p>From the first ball to the final over — find top-quality gear across every category in-store.</p>
+    </div>
+    <div class="cat-grid">
+      <div class="cat reveal tilt">
+        <div class="cat-icon"><svg viewBox="0 0 48 48"><path d="M30 6l4 4-3 3 4 4-17 23a4 4 0 0 1-6 0l-2-2a4 4 0 0 1 0-6l23-17 4 4z" transform="translate(-2 2)"/><path d="M34 4l6 6"/></svg></div>
+        <h3>Cricket Bats</h3><p>English &amp; Kashmir willow bats with great pick-up, balance and ping.</p><span class="num">01</span>
+      </div>
+      <div class="cat reveal tilt">
+        <div class="cat-icon"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="17"/><path d="M17 8c6 8 6 24 0 32M23 7c6 8 6 26 0 34"/></svg></div>
+        <h3>Balls</h3><p>Leather, season, tennis and practice balls for matches and nets.</p><span class="num">02</span>
+      </div>
+      <div class="cat reveal tilt">
+        <div class="cat-icon"><svg viewBox="0 0 48 48"><path d="M8 28a16 16 0 0 1 32 0v4H8z"/><path d="M8 32h32M14 32v8M24 32v8M34 32v8M14 40h20"/></svg></div>
+        <h3>Helmets</h3><p>Lightweight, well-ventilated helmets with sturdy grilles.</p><span class="num">03</span>
+      </div>
+      <div class="cat reveal tilt">
+        <div class="cat-icon"><svg viewBox="0 0 48 48"><path d="M14 42V18a3 3 0 0 1 6 0v-6a3 3 0 0 1 6 0v4a3 3 0 0 1 6 0v4a3 3 0 0 1 6 0v12a10 10 0 0 1-10 10z"/><path d="M14 26l-4-4a3 3 0 0 0-4 4l8 10"/></svg></div>
+        <h3>Gloves</h3><p>Batting &amp; wicket-keeping gloves with comfort and protection.</p><span class="num">04</span>
+      </div>
+      <div class="cat reveal tilt">
+        <div class="cat-icon"><svg viewBox="0 0 48 48"><rect x="14" y="4" width="20" height="40" rx="6"/><path d="M20 4v40M28 4v40M14 24h20"/></svg></div>
+        <h3>Batting Pads</h3><p>Light, protective leg guards for juniors and seniors.</p><span class="num">05</span>
+      </div>
+      <div class="cat reveal tilt">
+        <div class="cat-icon"><svg viewBox="0 0 48 48"><path d="M4 32h30l8 4v4H4z"/><path d="M8 32V20l10-4 6 8 10 2 4 6"/><path d="M10 40v3M18 40v3M26 40v3M34 40v3"/></svg></div>
+        <h3>Shoes</h3><p>Spikes and rubber-sole shoes built for grip and support.</p><span class="num">06</span>
+      </div>
+      <div class="cat reveal tilt">
+        <div class="cat-icon"><svg viewBox="0 0 48 48"><rect x="4" y="16" width="40" height="22" rx="6"/><path d="M18 16v-4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4M4 26h40"/></svg></div>
+        <h3>Kit Bags</h3><p>Wheelie, duffle and backpack kit bags to carry it all.</p><span class="num">07</span>
+      </div>
+      <div class="cat reveal tilt">
+        <div class="cat-icon"><svg viewBox="0 0 48 48"><path d="M12 44V12M24 44V12M36 44V12M10 10h14M24 10h14"/></svg></div>
+        <h3>Accessories</h3><p>Stumps, grips, mallets, guards, caps and more essentials.</p><span class="num">08</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCOREBOARD ============ -->
+<section class="scoreboard">
+  <div class="container">
+    <div class="board reveal zoom">
+      <div class="board-top">
+        <h2>Sporten <span>Scorecard</span></h2>
+        <div class="live">LIVE</div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="digits" data-count="500" data-suffix="+">0</div><small>Products in store</small></div>
+        <div class="stat"><div class="digits" data-count="8" data-suffix="">0</div><small>Gear categories</small></div>
+        <div class="stat"><div class="digits" data-count="1000" data-suffix="+">0</div><small>Happy cricketers</small></div>
+        <div class="stat"><div class="digits" data-count="100" data-suffix="%">0</div><small>Cricket passion</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY ============ -->
+<section id="why">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Why Sporten</div>
+      <h2>Play it <em>right</em> from ball one</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why reveal"><div class="badge">4</div><h3>Try Before You Buy</h3><p>Hold the bat, check the grip, feel the weight. Choose gear in person with guidance from cricket lovers.</p><div class="stripe"></div></div>
+      <div class="why reveal" style="transition-delay:.12s"><div class="badge">6</div><h3>Right Fit, Every Age</h3><p>Sizes for kids, juniors and adults — so every player gets gear that fits and performs.</p><div class="stripe"></div></div>
+      <div class="why reveal" style="transition-delay:.24s"><div class="badge">W</div><h3>Team &amp; Academy Orders</h3><p>Kitting out a team or academy? Call us for bulk requirements and team gear.</p><div class="stripe"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INSTAGRAM ============ -->
+<section class="insta" id="instagram">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="eyebrow">On The Gram</div>
+      <h2>Fresh from <em>@sp10.sporten</em></h2>
+      <p>New arrivals, bat knocking, happy customers and store moments — straight from our Instagram feed.</p>
+    </div>
+    <div class="insta-wrap">
+      <div class="insta-card reveal left">
+        <div class="insta-avatar"><div>S<span>p</span></div></div>
+        <h3>Sporten</h3>
+        <span class="handle">@sp10.sporten</span>
+        <p>Follow us for the latest bats, gear drops and cricket vibes from our store in Greater Noida West.</p>
+        <a href="https://www.instagram.com/sp10.sporten/" target="_blank" rel="noopener" class="btn btn-yellow">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 3.9 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.2 4.4 2.6 6.8 7 7 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.2-4.4-2.6-6.8-7-7C15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.9 1.4 1.4 0 0 0 0-2.9z"/></svg>
+          Follow on Instagram
+        </a>
+      </div>
+      <div class="insta-frame reveal right">
+        <!-- Instagram profile embed: shows the profile header + recent posts grid -->
+        <iframe src="https://www.instagram.com/sp10.sporten/embed" title="Sporten Instagram feed" loading="lazy" allowtransparency="true" scrolling="yes"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta-band">
+  <div class="bg-word">HOWZAT!</div>
+  <div class="container">
+    <h2 class="reveal left">Ready to hit it<br>out of the park?</h2>
+    <div class="reveal right" style="display:flex;gap:14px;flex-wrap:wrap">
+      <a href="tel:+917011691979" class="btn btn-dark">Call Us</a>
+      <a href="https://wa.me/917011691979" target="_blank" rel="noopener" class="btn btn-dark">WhatsApp Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VISIT ============ -->
+<section id="visit">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Visit Us</div>
+      <h2>Come to the <em>crease</em></h2>
+      <p>Drop by the store, pick up a bat and feel the difference. We'd love to help you gear up.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="c-list">
+        <a class="c-item reveal left" href="https://maps.google.com/?q=Rise+Square+Palm+Street+ATS+Roundabout+Sector+1+Greater+Noida+West" target="_blank" rel="noopener">
+          <div class="c-ico"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.3 7 13 7 13s7-7.7 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></div>
+          <div><small>Store Address</small><b>Shop UGF-11, Rise Square Palm Street, ATS Roundabout, Sector 1, Greater Noida West</b></div>
+        </a>
+        <a class="c-item reveal left" href="mailto:apsnoidaext@gmail.com" style="transition-delay:.08s">
+          <div class="c-ico"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5z"/></svg></div>
+          <div><small>Email</small><b>apsnoidaext@gmail.com</b></div>
+        </a>
+        <a class="c-item reveal left" href="tel:+917011691979" style="transition-delay:.16s">
+          <div class="c-ico"><svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg></div>
+          <div><small>Call Us</small><b>+91 70116 91979</b></div>
+        </a>
+        <a class="c-item reveal left" href="https://wa.me/917011691979" target="_blank" rel="noopener" style="transition-delay:.24s">
+          <div class="c-ico"><svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1l-.9 1.2c-.2.2-.3.2-.6.1-1.6-.8-2.7-1.4-3.8-3.2-.3-.5.3-.5.8-1.6.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5 1.9.8 2.6.9 3.6.7.6-.1 1.8-.7 2-1.5.3-.7.3-1.4.2-1.5 0-.1-.3-.2-.6-.3zM12 21.8c-1.8 0-3.5-.5-5-1.4l-3.6.9 1-3.5A9.8 9.8 0 1 1 12 21.8zM12 0a12 12 0 0 0-10.3 18L0 24l6.2-1.6A12 12 0 1 0 12 0z"/></svg></div>
+          <div><small>WhatsApp</small><b>+91 70116 91979</b></div>
+        </a>
+      </div>
+      <div class="map reveal right">
+        <iframe src="https://maps.google.com/maps?q=Rise%20Square%20Palm%20Street%2C%20ATS%20Roundabout%2C%20Sector%201%2C%20Greater%20Noida%20West&z=16&output=embed" loading="lazy" title="Sporten store location" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <a href="#home" class="logo">Spor<span>ten</span></a>
+        <p>Your Cricket Store in Greater Noida West. Bats, balls, protective gear and everything a cricketer needs — under one roof.</p>
+        <div class="socials">
+          <a href="https://www.instagram.com/sp10.sporten/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zM17.3 5.5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4zM21.9 7.1c-.1-1.6-.4-3-1.6-4.2S17.6 1.3 16 1.2C14.4 1.1 9.6 1.1 8 1.2c-1.6.1-3 .4-4.2 1.6S2.2 5.5 2.1 7.1C2 8.7 2 13.3 2.1 14.9c.1 1.6.4 3 1.6 4.2s2.6 1.5 4.2 1.6c1.6.1 6.4.1 8 0 1.6-.1 3-.4 4.2-1.6s1.5-2.6 1.6-4.2c.1-1.6.1-6.2.2-7.8zM19.8 18.2a3.2 3.2 0 0 1-1.8 1.8c-1.3.5-4.3.4-5.7.4s-4.4.1-5.7-.4a3.2 3.2 0 0 1-1.8-1.8c-.5-1.3-.4-4.3-.4-5.7s-.1-4.4.4-5.7A3.2 3.2 0 0 1 6.6 5c1.3-.5 4.3-.4 5.7-.4s4.4-.1 5.7.4a3.2 3.2 0 0 1 1.8 1.8c.5 1.3.4 4.3.4 5.7s.1 4.4-.4 5.7z"/></svg></a>
+          <a href="https://wa.me/917011691979" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1l-.9 1.2c-.2.2-.3.2-.6.1-1.6-.8-2.7-1.4-3.8-3.2-.3-.5.3-.5.8-1.6.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5 1.9.8 2.6.9 3.6.7.6-.1 1.8-.7 2-1.5.3-.7.3-1.4.2-1.5 0-.1-.3-.2-.6-.3zM12 21.8c-1.8 0-3.5-.5-5-1.4l-3.6.9 1-3.5A9.8 9.8 0 1 1 12 21.8zM12 0a12 12 0 0 0-10.3 18L0 24l6.2-1.6A12 12 0 1 0 12 0z"/></svg></a>
+          <a href="mailto:apsnoidaext@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul><li><a href="#about">About</a></li><li><a href="#gear">Our Gear</a></li><li><a href="#why">Why Sporten</a></li><li><a href="#instagram">Instagram</a></li><li><a href="#visit">Visit Us</a></li></ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li>Shop UGF-11, Rise Square Palm Street, ATS Roundabout, Sector 1, Greater Noida West</li>
+          <li><a href="tel:+917011691979">+91 70116 91979</a></li>
+          <li><a href="mailto:apsnoidaext@gmail.com">apsnoidaext@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copy"><div>© <span id="yr"></span> <span>Sporten</span> – Your Cricket Store. All rights reserved.</div><div>Made with 🏏 in Greater Noida West</div></div>
+  </div>
+</footer>
+
+<a class="wa" href="https://wa.me/917011691979?text=Hi%20Sporten!%20I%27d%20like%20to%20know%20more%20about%20your%20cricket%20gear." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1l-.9 1.2c-.2.2-.3.2-.6.1-1.6-.8-2.7-1.4-3.8-3.2-.3-.5.3-.5.8-1.6.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5 1.9.8 2.6.9 3.6.7.6-.1 1.8-.7 2-1.5.3-.7.3-1.4.2-1.5 0-.1-.3-.2-.6-.3zM12 21.8c-1.8 0-3.5-.5-5-1.4l-3.6.9 1-3.5A9.8 9.8 0 1 1 12 21.8zM12 0a12 12 0 0 0-10.3 18L0 24l6.2-1.6A12 12 0 1 0 12 0z"/></svg>
+</a>
+
+<script>
+/* ---------- Loader ---------- */
+window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('hide'),900));
+setTimeout(()=>document.getElementById('loader').classList.add('hide'),4000); // safety
+
+document.getElementById('yr').textContent=new Date().getFullYear();
+
+/* ---------- Split hero text into animated chars ---------- */
+let delay=0.9;
+document.querySelectorAll('[data-split]').forEach(line=>{
+  const text=line.textContent;line.textContent='';
+  [...text].forEach(ch=>{
+    const s=document.createElement('span');s.className='char';
+    s.textContent=ch===' '?' ':ch;
+    s.style.animationDelay=(delay+=0.035)+'s';
+    line.appendChild(s);
+  });
+  delay+=0.08;
+});
+
+/* ---------- Ticker duplicate for seamless loop ---------- */
+const tk=document.getElementById('ticker');tk.innerHTML+=tk.innerHTML;
+
+/* ---------- Header / progress ---------- */
+const header=document.getElementById('header'),pbar=document.getElementById('pbar'),pball=document.getElementById('pball');
+function onScroll(){
+  const y=window.scrollY,h=document.documentElement.scrollHeight-innerHeight;
+  header.classList.toggle('scrolled',y>40);
+  const pct=h>0?(y/h)*100:0;
+  pbar.style.width=pct+'%';pball.style.left=pct+'%';
+  pball.style.transform='rotate('+(y*0.8)+'deg)';
+}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+/* ---------- Mobile menu ---------- */
+const burger=document.getElementById('burger'),menu=document.getElementById('menu');
+burger.onclick=()=>{burger.classList.toggle('open');menu.classList.toggle('open')};
+menu.querySelectorAll('a').forEach(a=>a.onclick=()=>{burger.classList.remove('open');menu.classList.remove('open')});
+
+/* ---------- Cursor ball ---------- */
+const cur=document.getElementById('cursor');
+let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my;
+addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+(function follow(){cx+=(mx-cx)*.25;cy+=(my-cy)*.25;cur.style.left=cx+'px';cur.style.top=cy+'px';requestAnimationFrame(follow)})();
+document.querySelectorAll('a,button,.cat').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cur.classList.add('big'));
+  el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
+});
+
+/* ---------- Click = cricket shout ---------- */
+const shouts=['FOUR!','SIX!','HOWZAT!','OUT!','SIXER!','BOUNDARY!','WICKET!'];
+addEventListener('click',e=>{
+  const p=document.createElement('div');p.className='shot-pop';
+  p.textContent=shouts[Math.floor(Math.random()*shouts.length)];
+  p.style.left=e.clientX+'px';p.style.top=e.clientY+'px';
+  document.body.appendChild(p);setTimeout(()=>p.remove(),1000);
+});
+
+/* ---------- Scroll reveal ---------- */
+const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target)}}),{threshold:.15});
+document.querySelectorAll('.reveal').forEach((el,i)=>{
+  if(el.classList.contains('cat'))el.style.transitionDelay=(i%4)*0.1+'s';
+  io.observe(el);
+});
+
+/* ---------- Scoreboard counters ---------- */
+const cio=new IntersectionObserver(es=>es.forEach(en=>{
+  if(!en.isIntersecting)return;cio.unobserve(en.target);
+  const el=en.target,end=+el.dataset.count,suf=el.dataset.suffix,t0=performance.now(),dur=1800;
+  (function tick(t){const k=Math.min((t-t0)/dur,1),e=1-Math.pow(1-k,3);
+    el.textContent=Math.round(end*e).toLocaleString('en-IN')+suf;if(k<1)requestAnimationFrame(tick)})(t0);
+}),{threshold:.5});
+document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
+
+/* ---------- 3D tilt on gear cards ---------- */
+document.querySelectorAll('.tilt').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    card.style.transform=`perspective(800px) rotateY(${x*14}deg) rotateX(${-y*14}deg) translateY(-6px)`;
+  });
+  card.addEventListener('mouseleave',()=>card.style.transform='');
+});
+
+/* ---------- Hero: bowled! ball flies at stumps on a loop ---------- */
+const scene=document.getElementById('scene'),fb=document.getElementById('flyball'),stumps=document.getElementById('stumps'),speed=document.getElementById('speed');
+function bowl(){
+  const W=scene.clientWidth,H=scene.clientHeight;
+  const sr=stumps.getBoundingClientRect(),sc=scene.getBoundingClientRect();
+  const tx=sr.left-sc.left+20,ty=sr.top-sc.top+40;
+  const start={x:-40,y:H*.15},bounce={x:W*.45,y:H-120},end={x:tx,y:ty};
+  const t0=performance.now(),dur=900;
+  stumps.classList.remove('hit');fb.style.opacity=1;
+  speed.textContent=130+Math.floor(Math.random()*25);
+  (function step(t){
+    const k=Math.min((t-t0)/dur,1);let x,y;
+    if(k<.55){const q=k/.55;x=start.x+(bounce.x-start.x)*q;y=start.y+(bounce.y-start.y)*q*q}
+    else{const q=(k-.55)/.45;x=bounce.x+(end.x-bounce.x)*q;y=bounce.y+(end.y-bounce.y)*Math.sin(q*Math.PI/2)}
+    fb.style.transform=`translate(${x}px,${y}px)`;
+    if(k<1)requestAnimationFrame(step);
+    else{stumps.classList.add('hit');fb.style.opacity=0;
+      const r=scene.getBoundingClientRect();
+      const p=document.createElement('div');p.className='shot-pop';p.textContent='BOWLED!';
+      p.style.left=(r.left+tx+30)+'px';p.style.top=(r.top+ty-20)+'px';document.body.appendChild(p);setTimeout(()=>p.remove(),1000);
+    }
+  })(t0);
+}
+setTimeout(()=>{bowl();setInterval(bowl,4200)},2400);
+
+/* ---------- Hero particles (floating stadium-light sparks) ---------- */
+const cv=document.getElementById('particles'),ctx=cv.getContext('2d');let parts=[];
+function size(){cv.width=cv.offsetWidth;cv.height=cv.offsetHeight;
+  parts=Array.from({length:Math.min(70,Math.floor(cv.width/18))},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*2.2+.4,vy:-(Math.random()*.5+.15),vx:(Math.random()-.5)*.3,a:Math.random()*.6+.2}))}
+size();addEventListener('resize',size);
+(function draw(){ctx.clearRect(0,0,cv.width,cv.height);
+  parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.y<-5){p.y=cv.height+5;p.x=Math.random()*cv.width}
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(253,185,19,${p.a})`;ctx.fill()});
+  requestAnimationFrame(draw)})();
+
+/* ---------- Parallax on big ball ---------- */
+const bigBall=document.querySelector('.big-ball');
+addEventListener('mousemove',e=>{const x=(e.clientX/innerWidth-.5)*30,y=(e.clientY/innerHeight-.5)*30;bigBall.style.translate=`${x}px ${y}px`});
+</script>
+</body>
+</html>
